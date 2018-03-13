@@ -1,0 +1,30 @@
+.signal-block
+{
+    width: 280px;
+    height: 280px;
+    background-color: green;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0.5em;
+}
+
+.chart-block
+{
+    width: 280px;
+    height: 280px;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.last-reaction-wrapper
+{
+    line-height: 280px;
+}
+
+.last-reaction
+{
+    font-size: 3em;
+    color: hsla(0, 0%, 99%, 1);
+}
