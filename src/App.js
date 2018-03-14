@@ -190,6 +190,11 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12 text-center">
+            <a href="https://github.com/rsk700/reaction-time">sources</a>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12 text-center">
             <div className="signal-block" style={this.state.signalColor}>
               <div className="last-reaction-wrapper text-center">
                 <div className="last-reaction">
