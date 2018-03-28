@@ -10,6 +10,7 @@ class App extends Component {
     this.keyDown = this.keyDown.bind(this);
     this.blink = this.blink.bind(this);
     this.createChart = this.createChart.bind(this);
+    this.registerKeyPress = this.registerKeyPress.bind(this);
     this.getLastReactionTimeText = this.getLastReactionTimeText.bind(this);
     this.timer = null; // random timer to change color
     this.chart = null;
@@ -35,16 +36,22 @@ class App extends Component {
         backgroundColor: 'green'
       },
       lastReaction: null,
-      reactions: [] // user reaction times
+      reactions: [], // user reaction times
+      reactionErrors: 0
     };
   }
 
-  keyDown(e) {
-    // check e.code to be equal to Enter
-    if (!this.state.isStarted) {
-      return;
+  errorsPer1000() {
+    if (this.state.reactions.length === 0) {
+      return 0;
     }
-    if (e.code !== 'Enter') {
+    let errors = this.state.reactionErrors / this.state.reactions.length * 1000;
+    errors = _.round(errors, 1);
+    return errors;
+  }
+
+  registerKeyPress() {
+    if (!this.state.isStarted) {
       return;
     }
     if (this.state.signalStart !== null) {
@@ -59,8 +66,17 @@ class App extends Component {
         reactions: this.state.reactions.concat([reaction])
       });
     }
-    this.updateChart();
+    else {
+      this.setState({
+        ...this.state,
+        reactionErrors: this.state.reactionErrors + 1
+      });
+    }
     this.blink();
+  }
+
+  keyDown(e) {
+    this.registerKeyPress();
   }
 
   componentDidMount() {
@@ -152,11 +168,12 @@ class App extends Component {
     let newState = {
       ...this.state,
       isStarted: isStarted,
-      startButtonTitle: title,
-      reactions: []
+      startButtonTitle: title
     };
     if (isStarted) {
       e.target.blur();
+      newState.reactions = [];
+      newState.reactionErrors = 0;
     }
     else {
       newState.signalColor = {
@@ -169,6 +186,7 @@ class App extends Component {
   }
 
   render() {
+    this.updateChart();
     return (
       <div className="container">
         <div className="row">
@@ -185,7 +203,10 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12 text-center">
-            As you ready press "start" button, and every time block below changes color to red you need to press "Enter" on your keyboard, and you will see your reaction time.
+            As you ready press "start" button, and every time block below
+            changes color to red you need to press any button on keyboard
+            (for exapmle "Enter") or click with mouse inside square, and
+            you will see your reaction time.
           </div>
         </div>
         <div className="row">
@@ -195,13 +216,18 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12 text-center">
-            <div className="signal-block" style={this.state.signalColor}>
+            <div className="signal-block" style={this.state.signalColor} onClick={this.registerKeyPress}>
               <div className="last-reaction-wrapper text-center">
                 <div className="last-reaction">
                   { this.getLastReactionTimeText() }
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12 text-center">
+            Reaction errors: { this.state.reactionErrors } ({ this.errorsPer1000() } errors per 1000 key presses)
           </div>
         </div>
         <div className="row">
