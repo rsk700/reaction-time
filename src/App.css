@@ -28,3 +28,9 @@
     font-size: 3em;
     color: hsla(0, 0%, 99%, 1);
 }
+
+.no-reactions-url
+{
+    user-select: none;
+    color: grey;
+}

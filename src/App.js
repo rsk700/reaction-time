@@ -28,7 +28,7 @@ class App extends Component {
         }
       }
     };
-    this.state = {
+    let state = {
       isStarted: false,
       signalStart: null, // time when color changed
       startButtonTitle: 'start',
@@ -39,7 +39,26 @@ class App extends Component {
       reactions: [], // user reaction times
       reactionErrors: 0
     };
+    let url = new URL(window.location);
+    if (url.searchParams.get('reactions') !== null) {
+      let reactions = url.searchParams.get('reactions');
+      reactions = JSON.parse(reactions);
+      state.reactions = reactions.reactions;
+      state.reactionErrors = reactions.reactionErrors;
+    }
+    this.state = state;
   }
+
+  getReactionsUrl() {
+    let url = new URL(window.location);
+    let data = {
+      reactions: this.state.reactions,
+      reactionErrors: this.state.reactionErrors
+    };
+    let dataString = JSON.stringify(data);
+    dataString = encodeURIComponent(dataString);
+    return `${url.origin}?reactions=${dataString}`
+  };
 
   errorsPer1000() {
     if (this.state.reactions.length === 0) {
@@ -120,6 +139,7 @@ class App extends Component {
 
   createChart(canvas) {
     this.chart = new window.Chart(canvas, this.chartData);
+    this.setState({...this.state});
   }
 
   updateChart() {
@@ -185,6 +205,13 @@ class App extends Component {
     setTimeout(this.blink, 0);
   }
 
+  reactionsUrl() {
+    if (this.state.reactions.length === 0) {
+      return <div className="no-reactions-url">URL</div>;
+    }
+    return <a href={this.getReactionsUrl()}>url with results</a>;
+  }
+
   render() {
     this.updateChart();
     return (
@@ -212,6 +239,11 @@ class App extends Component {
         <div className="row">
           <div className="col-xs-12 text-center">
             <a href="https://github.com/rsk700/reaction-time">sources</a>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12 text-center">
+            { this.reactionsUrl() }
           </div>
         </div>
         <div className="row">
