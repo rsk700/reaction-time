@@ -57,7 +57,7 @@ class App extends Component {
     };
     let dataString = JSON.stringify(data);
     dataString = encodeURIComponent(dataString);
-    return `${url.origin}?reactions=${dataString}`
+    return `${url.origin}${url.pathname}?reactions=${dataString}`
   };
 
   errorsPer1000() {
@@ -207,19 +207,21 @@ class App extends Component {
 
   reactionsUrl() {
     if (this.state.reactions.length === 0) {
-      return <div className="no-reactions-url">URL</div>;
+      return <div className="no-reactions-url">url with results</div>;
     }
-    return <a href={this.getReactionsUrl()}>url with results</a>;
+    return (<b><a href={this.getReactionsUrl()}>url with results</a></b>);
   }
 
   render() {
     this.updateChart();
+    let url = new URL(window.location);
+    let appUrl = `${url.origin}${url.pathname}`;
     return (
       <div className="container">
         <div className="row">
           <div className="col-xs-12 text-center">
             <header>
-              <h1>Reaction time</h1>
+              <h1><a href={appUrl}>Reaction time</a></h1>
             </header>
           </div>
         </div>
