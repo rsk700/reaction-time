@@ -219,19 +219,19 @@ class App extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-xs-12 text-center">
+          <div className="col-12 text-center">
             <header>
               <h1><a href={appUrl}>Reaction time</a></h1>
             </header>
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-12 text-center">
+          <div className="col-12 text-center">
             <button className="btn btn-success" onClick={this.onStart}>{ this.state.startButtonTitle }</button>
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-12 text-center">
+          <div className="col-12 text-center">
             As you ready press "start" button, and every time block below
             changes color to red you need to press any button on keyboard
             (for exapmle "Enter") or click with mouse inside square, and
@@ -239,17 +239,17 @@ class App extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-12 text-center">
+          <div className="col-12 text-center">
             <a href="https://github.com/rsk700/reaction-time">sources</a>
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-12 text-center">
+          <div className="col-12 text-center">
             { this.reactionsUrl() }
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-12 text-center">
+          <div className="col-12 text-center">
             <div className="signal-block" style={this.state.signalColor} onClick={this.registerKeyPress}>
               <div className="last-reaction-wrapper text-center">
                 <div className="last-reaction">
@@ -260,12 +260,12 @@ class App extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-12 text-center">
+          <div className="col-12 text-center">
             Reaction errors: { this.state.reactionErrors } ({ this.errorsPer1000() } errors per 1000 key presses)
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-12 text-center">
+          <div className="col-12 text-center">
             <div className="chart-block">
               <canvas className="chart-block" width="280" height="280" ref={this.createChart}></canvas>
             </div>
